@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A step-by-step guide to setting up a 7 Days to Die dedicated server on a Synology NAS using Docker." />
+  <title>Host a 7DtD Server on Synology | Geeky Mom Blog</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Copying the exact CSS variables and styling from your index.html */
+    :root {
+      --bg: #faf7f2;
+      --grid-color: #e8e3dc;
+      --surface: #ffffff;
+      --surface-soft: #f0ebe1;
+      --ink: #3a3536;
+      --muted: #7a7375;
+      --brand: #c6878f; 
+      --brand-dark: #9e646b;
+      --accent: #8b9a8b; 
+      --accent-soft: #dce3dc;
+      --highlight: #f4d06f; 
+      --border: #e0d8d0;
+      --shadow: 4px 4px 0px rgba(158, 100, 107, 0.15); 
+      --radius: 16px;
+      --max-width: 1120px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1a24;
+      --grid-color: #2a2a35;
+      --surface: #252530;
+      --surface-soft: #30303e;
+      --ink: #f0ebe1;
+      --muted: #a09da5;
+      --brand: #e8a5ad; 
+      --brand-dark: #ffb8b1;
+      --accent: #a3c4a3; 
+      --accent-soft: #384638;
+      --highlight: #ffd97d;
+      --border: #3f3f50;
+      --shadow: 4px 4px 0px rgba(255, 184, 177, 0.2);
+    }
+
+    * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 24px 24px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--brand-dark); text-decoration-thickness: 0.12em; text-underline-offset: 0.18em; }
+    a:hover { color: var(--accent); }
+    
+    /* Header & Navigation */
+    header {
+      background: var(--surface);
+      border-bottom: 2px dashed var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .nav-wrap {
+      max-width: var(--max-width); margin: 0 auto; padding: 0.8rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .site-logo { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 1.2rem; }
+    .logo-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: var(--brand); color: var(--surface); font-weight: 900; border: 2px solid var(--ink); box-shadow: 2px 2px 0px var(--ink); }
+    nav { display: flex; align-items: center; gap: 1.5rem; }
+    nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; }
+    nav a { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 8px; color: var(--ink); text-decoration: none; font-weight: 600; }
+    nav a:hover { background: var(--accent-soft); color: var(--ink); transform: translateY(-1px); }
+    #theme-toggle { background: var(--surface-soft); border: 2px solid var(--border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: grid; place-items: center; font-size: 1.2rem; }
+    #theme-toggle:hover { background: var(--highlight); border-color: var(--ink); }
+
+    /* Layout Basics */
+    section { padding: 4.5rem 1.25rem; }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    h1, h2, h3, h4 { line-height: 1.2; margin: 2rem 0 1rem; color: var(--ink); font-weight: 800; }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); margin-top: 0; }
+    p { margin-bottom: 1.5rem; }
+    
+    .lead { font-size: 1.2rem; color: var(--muted); margin: 0 0 1.5rem; }
+    
+    /* Blog Post Specific Styles */
+    .article-container { max-width: 800px; margin: 0 auto; background: var(--surface); padding: 3rem; border: 2px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative;}
+    .article-container::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 80px; height: 25px; background: rgba(210, 166, 161, 0.4); border: 1px solid rgba(0,0,0,0.05); }
+    .tag { display: inline-block; margin-bottom: 1rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: var(--highlight); color: #3a3536; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+    
+    code { background: var(--surface-soft); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.9em; border: 1px solid var(--border); }
+    ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+    li { margin-bottom: 0.5rem; }
+
+    footer { padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrap">
+      <a class="site-logo" href="index.html">
+        <span class="logo-mark" aria-hidden="true">GM</span>
+        <span>Geeky Mom Blog</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html#quests">Daily Quests</a></li>
+          <li><a href="index.html#servers">The Command Center</a></li>
+          <li><a href="index.html#shop">Ommani Shop</a></li>
+        </ul>
+        <button id="theme-toggle" aria-label="Switch to Dark Mode" title="Toggle Dark/Light Mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section>
+      <div class="container">
+        <a href="index.html#latest" style="display: inline-block; margin-bottom: 2rem; font-weight: 800;">&larr; Back to the Command Center</a>
+        
+        <article class="article-container">
+          <span class="tag">Tech</span>
+          <h1>How to Host a 7 Days to Die Server on a Synology NAS (And Keep Your Sanity)</h1>
+          
+          <p class="lead">Let’s be honest: getting a 7 Days to Die dedicated server running through Docker on a Synology NAS is a massive headache. It just is. But after enough trial, error, and contemplating throwing my laptop, I finally got ours up and running.</p>
+
+          <p>If you want to host your own private world without paying a monthly fee to rent a server, here is the exact process I used, along with a few common pitfalls to avoid.</p>
+
+          <h3>The Loadout (Hardware Requirements)</h3>
+          <p>Before you start clicking around in Docker, make sure your NAS actually has the resources to handle this. <em>7 Days to Die</em> requires a significant amount of memory and space.</p>
+          <ul>
+            <li><strong>The NAS:</strong> Synology DS255+ (Affectionately named Jedi_Archives)</li>
+            <li><strong>Memory:</strong> 18GB RAM. The absolute bare minimum memory you can get away with to run this game without it crashing when a blood moon hits is 8GB, but more is always better. Do not try to run this on the base 2GB or 4GB of RAM. The server will panic and crash the second you try to do anything. <em>(If you need to upgrade, these are the exact RAM sticks I recommend and use: <a href="#">[Insert Affiliate Link Here]</a>)</em></li>
+            <li><strong>Storage:</strong> The server files and world generation need an absolute minimum of 30GB of free space. I am running <em>two</em> 12TB IronWolf Pro drives set up as a mirror backup. This way, if one drive fails, I have full redundancy—which is vital because I use this NAS to back up a lot of family photos and videos, not just game servers.</li>
+          </ul>
+
+          <h3>Step 1: Prep Your Folders</h3>
+          <p>If you haven't already, install the Container Manager (formerly Docker) from the Synology Package Center.</p>
+          <ul>
+            <li>Open File Station and navigate to your <code>docker</code> folder.</li>
+            <li>Create a new folder named <code>7dtd</code> (or whatever you want to call it). Inside that, create two more folders: <code>server_data</code> and <code>steamcmd</code>. This keeps your game saves and the server files organized. Setting these up now is crucial so you don't lose your entire world save the next time the container updates.</li>
+          </ul>
+
+          <h3>Step 2: Grab the Docker Image</h3>
+          <p>Open Container Manager, click over to the Registry, and search for a reliable 7DtD image. I highly recommend using the <code>vinanrra/7dtd-server</code> image. It’s the most consistently maintained option I’ve found for Synology setups. Download the <code>latest</code> tag.</p>
+
+          <h3>Step 3: Configure the Container (The Annoying Part)</h3>
+          <p>When you launch the image to create the container, you have to get your volume mapping, environment variables, and port forwarding exactly right, or absolutely nothing will work.</p>
+          <ul>
+            <li><strong>Volume Mapping:</strong> Map the local <code>server_data</code> folder you just made on your NAS to the container's internal data path (usually listed in the image documentation as <code>/home/steam/.local/share/7DaysToDie</code>), and map your local <code>steamcmd</code> folder to the container's internal steamcmd path.</li>
+            <li><strong>Port Forwarding:</strong> You have to map the container ports to your local NAS ports. Then, you <em>must</em> log into your actual home router's admin panel, find the local IP address of your Synology NAS, and forward these exact ports to allow external traffic. Otherwise, your friends won't be able to join!
+              <ul>
+                <li><strong>26900</strong> (TCP/UDP)</li>
+                <li><strong>26901</strong> (UDP)</li>
+                <li><strong>26902</strong> (UDP)</li>
+              </ul>
+            </li>
+            <li><strong>Environment Variables:</strong> In the container settings, look for the Environment tab. This is where you set the foundation of the server. You will need to add or edit the variables provided by the image to allocate your memory limits and define basic setup variables (like ensuring the server updates on restart). Give the container access to as much RAM as you can spare.</li>
+          </ul>
+
+          <h3>Step 4: Tweak the serverconfig.xml</h3>
+          <p>Start the container for the first time. It won't be fully playable yet, but running it once forces it to generate a <code>serverconfig.xml</code> file inside your <code>server_data</code> folder.</p>
+          <p>Stop the container. <em>Important note here:</em> I did not have access to a text editor directly inside Synology to edit this file. If you run into the same issue, here is the workaround:</p>
+          <ol>
+            <li>Download the <code>serverconfig.xml</code> file from File Station directly to your computer.</li>
+            <li><strong>Make a copy of the original file and save it somewhere safe before you delete or change anything, just in case something breaks.</strong></li>
+            <li>Open the downloaded file using your computer's native Notes app or Notepad.</li>
+            <li>This is where you set your world size, blood moon frequency, server name, password, and difficulty.</li>
+            <li>Tweak it to your liking, ensure it is still saved as an <code>.xml</code> file, and upload it back into the <code>server_data</code> folder on your NAS, overwriting the unedited version.</li>
+            <li>Fire the container back up.</li>
+          </ol>
+
+          <h3>Step 5: Hurry Up and Wait</h3>
+          <p>When you restart the container, it has to download the actual game files via SteamCMD. This takes a while. Do not panic if it takes a while.</p>
+          <p>Open the container logs and keep an eye on it. If you see it fetching data, go grab a coffee and leave it alone. If you see a wall of red error text, take a deep breath, go verify your folder permissions (the container needs read/write access to that <code>7dtd</code> folder!), and restart it.</p>
+          <p>Once the log finally confirms the server has successfully started, boot up the game on your PC, search for your server name, enter your password, and start punching grass.</p>
+          
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Geeky Mom Blog (Ommani Collective). Built with ☕ and accessibility in mind.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Set Current Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Dark Mode Toggle Logic
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlEl = document.documentElement;
+    
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+      htmlEl.setAttribute('data-theme', 'dark');
+      toggleBtn.textContent = '☀️';
+      toggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (htmlEl.getAttribute('data-theme') === 'dark') {
+        htmlEl.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        toggleBtn.textContent = '🌙';
+        toggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
+      } else {
+        htmlEl.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        toggleBtn.textContent = '☀️';
+        toggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+      }
+    });
+  </script>
+</body>
+</html>
