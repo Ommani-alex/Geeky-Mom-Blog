@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A behind-the-scenes look at assembling a pastel-themed 6x4x3 happy mail box for the Giving Tree Happy Mail Exchange." />
+  <title>Pastel Color of the Month Happy Mail Swap | Geeky Mom Blog</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Exact same CSS as your other pages */
+    :root {
+      --bg: #faf7f2; --grid-color: #e8e3dc; --surface: #ffffff; --surface-soft: #f0ebe1;
+      --ink: #3a3536; --muted: #7a7375; --brand: #c6878f; --brand-dark: #9e646b;
+      --accent: #8b9a8b; --accent-soft: #dce3dc; --highlight: #f4d06f; --border: #e0d8d0;
+      --shadow: 4px 4px 0px rgba(158, 100, 107, 0.15); --radius: 16px; --max-width: 1120px;
+    }
+    [data-theme="dark"] {
+      --bg: #1a1a24; --grid-color: #2a2a35; --surface: #252530; --surface-soft: #30303e;
+      --ink: #f0ebe1; --muted: #a09da5; --brand: #e8a5ad; --brand-dark: #ffb8b1;
+      --accent: #a3c4a3; --accent-soft: #384638; --highlight: #ffd97d; --border: #3f3f50;
+      --shadow: 4px 4px 0px rgba(255, 184, 177, 0.2);
+    }
+    * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: 'Nunito', system-ui, sans-serif; color: var(--ink);
+      background-color: var(--bg);
+      background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 24px 24px; line-height: 1.6;
+    }
+    a { color: var(--brand-dark); text-decoration-thickness: 0.12em; text-underline-offset: 0.18em; }
+    a:hover { color: var(--accent); }
+    header { background: var(--surface); border-bottom: 2px dashed var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .nav-wrap { max-width: var(--max-width); margin: 0 auto; padding: 0.8rem 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .site-logo { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 1.2rem; }
+    .logo-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: var(--brand); color: var(--surface); font-weight: 900; border: 2px solid var(--ink); box-shadow: 2px 2px 0px var(--ink); }
+    nav { display: flex; align-items: center; gap: 1.5rem; }
+    nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; }
+    nav a { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 8px; color: var(--ink); text-decoration: none; font-weight: 600; }
+    nav a:hover { background: var(--accent-soft); color: var(--ink); transform: translateY(-1px); }
+    #theme-toggle { background: var(--surface-soft); border: 2px solid var(--border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: grid; place-items: center; font-size: 1.2rem; }
+    #theme-toggle:hover { background: var(--highlight); border-color: var(--ink); }
+    section { padding: 4.5rem 1.25rem; }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    h1, h2, h3, h4 { line-height: 1.2; margin: 2rem 0 1rem; color: var(--ink); font-weight: 800; }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); margin-top: 0; }
+    p { margin-bottom: 1.5rem; }
+    .lead { font-size: 1.2rem; color: var(--muted); margin: 0 0 1.5rem; }
+    .article-container { max-width: 800px; margin: 0 auto; background: var(--surface); padding: 3rem; border: 2px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative;}
+    .article-container::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 80px; height: 25px; background: rgba(210, 166, 161, 0.4); border: 1px solid rgba(0,0,0,0.05); }
+    .tag { display: inline-block; margin-bottom: 1rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: var(--highlight); color: #3a3536; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+    ul, ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+    li { margin-bottom: 0.5rem; }
+    .callout { background: var(--surface-soft); border: 2px dashed var(--brand); padding: 1.5rem; border-radius: var(--radius); margin: 2rem 0; color: var(--ink); box-shadow: 4px 4px 0px rgba(0,0,0,0.05); }
+    .callout h4 { margin-top: 0; color: var(--brand-dark); }
+    footer { padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrap">
+      <a class="site-logo" href="index.html">
+        <span class="logo-mark" aria-hidden="true">GM</span>
+        <span>Geeky Mom Blog</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html#quests">Daily Quests</a></li>
+          <li><a href="index.html#servers">The Command Center</a></li>
+          <li><a href="index.html#shop">Ommani Shop</a></li>
+        </ul>
+        <button id="theme-toggle" aria-label="Switch to Dark Mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section>
+      <div class="container">
+        <a href="crafts.html" style="display: inline-block; margin-bottom: 2rem; font-weight: 800;">&larr; Back to Crafts</a>
+        
+        <article class="article-container">
+          <span class="tag">Crafts</span>
+          <h1>Pastel Dreams: April's "Color of the Month" Happy Mail Swap</h1>
+          
+          <p class="lead">There is something incredibly therapeutic about assembling a tiny, perfectly curated box of joy and shipping it off to a complete stranger. Here is a breakdown of what went into my pastel-themed swap box.</p>
+
+          <p>If you're not already part of the <strong>Giving Tree Happy Mail Exchange</strong> on Facebook, you are missing out on one of the most positive, creative corners of the internet. Our admin, Melanie, does a fantastic job organizing community events, and helping her with the outreach to collect interest tags and verify mailing lists for these swaps is always a highlight of my month.</p>
+
+          <p>April's event was a "Color of the Month" swap with a strict pastel theme. The challenge was to pack as much aesthetic, crafty goodness as possible into a specific footprint.</p>
+
+          <h3>The Anatomy of a 6x4x3 Box</h3>
+          <p>When you are restricted to a 6x4x3 shipping box, every millimeter counts. You have to get strategic with layering. Rather than just tossing loose items in, I like to create a mini junk journaling experience right inside the box.</p>
+
+          <p>To pull this off, I rely heavily on my Cricut Maker 4 to cut precise custom envelopes and ephemera folders that perfectly hug the interior dimensions of the box. A heavy-duty spray adhesive and high-quality double-sided tape are absolute musts here—liquid glue will warp your paper and ruin the clean edges of your folios!</p>
+
+          <h3>What Went Inside</h3>
+          <p>The goal is always to send things that are both beautiful and immediately usable for another crafter. For this pastel theme, I included:</p>
+
+          <ul>
+            <li><strong>Original Watercolor Art:</strong> I spent a few evenings painting soft, pastel washes and cutting them down into journal-sized tags.</li>
+            <li><strong>Crafting Supplies:</strong> A fresh set of pastel markers to match the color palette, and plenty of sticker sheets.</li>
+            <li><strong>A Custom Tote:</strong> The centerpiece of the box was a handmade canvas tote bag featuring our "Giving Tree" community design. (Because honestly, crafters always need more tote bags to haul our supplies around).</li>
+          </ul>
+
+          <div class="callout">
+            <h4>Want to join the next swap?</h4>
+            <p>If you love paper crafting, collecting ephemera, and sending snail mail, come find us in the Giving Tree Happy Mail Exchange group! We are always welcoming new members who want to share the creative chaos.</p>
+          </div>
+
+          <p>Getting these boxes ready to ship is half the fun, but seeing the unboxing posts in the group when they finally arrive is definitely the best part. I'm already pulling materials and brainstorming for the next theme!</p>
+          
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Geeky Mom Blog (Ommani Collective). Built with ☕ and accessibility in mind.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlEl = document.documentElement;
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') htmlEl.setAttribute('data-theme', 'dark');
+    toggleBtn.addEventListener('click', () => {
+      if (htmlEl.getAttribute('data-theme') === 'dark') {
+        htmlEl.removeAttribute('data-theme'); localStorage.setItem('theme', 'light');
+      } else {
+        htmlEl.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+</body>
+</html>
