@@ -118,7 +118,7 @@
       padding: 1.5rem;
       border-radius: var(--radius);
       margin: 2rem 0;
-      color: #3a3536; /* Keeping text dark for readability on the yellow background */
+      color: #3a3536;
       box-shadow: 4px 4px 0px var(--ink);
     }
     .callout h4 { margin-top: 0; color: #3a3536;}
@@ -158,11 +158,6 @@
           <p class="lead">Let’s be honest: getting a 7 Days to Die dedicated server running through Docker on a Synology NAS is a massive headache. It just is. But after enough trial, error, and contemplating throwing my laptop, I finally got ours up and running.</p>
 
           <p>If you want to host your own private world without paying a monthly fee to rent a server, here is the exact process I used, along with a few common pitfalls to avoid.</p>
-
-          <div class="callout">
-            <h4>🛑 Stop: Read This First!</h4>
-            <p><strong>ANY TIME THE SERVER CRASHES AND HAS ISSUES STARTING, RESTART THE NAS.</strong> This is the most common issue I have run into. STEP ONE SHOULD ALWAYS BE TO RESTART THE NAS. DO NOT TRY TO TROUBLESHOOT AND DELETE OR EDIT FILES UNTIL YOU RESTART. Most of the time, restarting fixes it, as the most common issue is with DNS. Restarting the NAS fixes all DNS issues.</p>
-          </div>
 
           <h3>The Loadout (Hardware Requirements)</h3>
           <p>Before you start clicking around in Docker, make sure your NAS actually has the resources to handle this. <em>7 Days to Die</em> requires a significant amount of memory and space.</p>
@@ -231,6 +226,11 @@
           <p>When you restart the container, it has to download the actual game files via SteamCMD. This takes a while. Do not panic if it takes a while.</p>
           <p>Open the container logs and keep an eye on it. If you see it fetching data, go grab a coffee and leave it alone. If you see a wall of red error text, take a deep breath, go verify your folder permissions (the container needs read/write access to that <code>7days</code> folder!), and restart it.</p>
           <p>Once the log finally confirms the server has successfully started, boot up the game on your PC, search for your server name, enter your password, and start punching grass.</p>
+
+          <div class="callout">
+            <h4>🛑 Server Troubleshooting: Read This First!</h4>
+            <p><strong>ANY TIME THE SERVER CRASHES AND HAS ISSUES STARTING, RESTART THE NAS.</strong> This is the most common issue I have run into. STEP ONE SHOULD ALWAYS BE TO RESTART THE NAS. DO NOT TRY TO TROUBLESHOOT AND DELETE OR EDIT FILES UNTIL YOU RESTART. Most of the time, restarting fixes it, as the most common issue is with DNS. Restarting the NAS fixes all DNS issues.</p>
+          </div>
           
         </article>
       </div>
