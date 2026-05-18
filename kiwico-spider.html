@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A review of the KiwiCo Tinker Crate Motion-Sensing Spider, and how it taught my kids patience, wiring, and the art of a failed prank." />
+  <title>The Great Spider Prank | Geeky Mom Blog</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --grid-color: #e8e3dc;
+      --surface: #ffffff;
+      --surface-soft: #f0ebe1;
+      --ink: #3a3536;
+      --muted: #7a7375;
+      --brand: #c6878f; 
+      --brand-dark: #9e646b;
+      --accent: #8b9a8b; 
+      --accent-soft: #dce3dc;
+      --highlight: #f4d06f; 
+      --border: #e0d8d0;
+      --shadow: 4px 4px 0px rgba(158, 100, 107, 0.15); 
+      --radius: 16px;
+      --max-width: 1120px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1a24;
+      --grid-color: #2a2a35;
+      --surface: #252530;
+      --surface-soft: #30303e;
+      --ink: #f0ebe1;
+      --muted: #a09da5;
+      --brand: #e8a5ad; 
+      --brand-dark: #ffb8b1;
+      --accent: #a3c4a3; 
+      --accent-soft: #384638;
+      --highlight: #ffd97d;
+      --border: #3f3f50;
+      --shadow: 4px 4px 0px rgba(255, 184, 177, 0.2);
+    }
+
+    * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 24px 24px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--brand-dark); text-decoration-thickness: 0.12em; text-underline-offset: 0.18em; }
+    a:hover { color: var(--accent); }
+    
+    /* Header & Navigation */
+    header {
+      background: var(--surface);
+      border-bottom: 2px dashed var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .nav-wrap {
+      max-width: var(--max-width); margin: 0 auto; padding: 0.8rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .site-logo { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 1.2rem; }
+    .logo-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: var(--brand); color: var(--surface); font-weight: 900; border: 2px solid var(--ink); box-shadow: 2px 2px 0px var(--ink); }
+    nav { display: flex; align-items: center; gap: 1.5rem; }
+    nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; }
+    nav a { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 8px; color: var(--ink); text-decoration: none; font-weight: 600; }
+    nav a:hover { background: var(--accent-soft); color: var(--ink); transform: translateY(-1px); }
+    #theme-toggle { background: var(--surface-soft); border: 2px solid var(--border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: grid; place-items: center; font-size: 1.2rem; }
+    #theme-toggle:hover { background: var(--highlight); border-color: var(--ink); }
+
+    /* Layout Basics */
+    section { padding: 4.5rem 1.25rem; }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    h1, h2, h3, h4 { line-height: 1.2; margin: 2rem 0 1rem; color: var(--ink); font-weight: 800; }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); margin-top: 0; }
+    p { margin-bottom: 1.5rem; }
+    
+    .lead { font-size: 1.2rem; color: var(--muted); margin: 0 0 1.5rem; }
+    
+    /* Blog Post Specific Styles */
+    .article-container { max-width: 800px; margin: 0 auto; background: var(--surface); padding: 3rem; border: 2px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative;}
+    .article-container::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 80px; height: 25px; background: rgba(210, 166, 161, 0.4); border: 1px solid rgba(0,0,0,0.05); }
+    .tag { display: inline-block; margin-bottom: 1rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: var(--highlight); color: #3a3536; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .callout {
+      background: var(--accent-soft);
+      border: 2px dashed var(--accent);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+      color: var(--ink);
+      text-align: center;
+    }
+    
+    .callout a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: 2px 2px 0px var(--ink);
+      border: 2px solid var(--ink);
+      transition: all 0.2s ease;
+    }
+    
+    .callout a:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 0px 0px 0px var(--ink);
+    }
+
+    footer { padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrap">
+      <a class="site-logo" href="index.html">
+        <span class="logo-mark" aria-hidden="true">GM</span>
+        <span>Geeky Mom Blog</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html#quests">Daily Quests</a></li>
+          <li><a href="index.html#servers">The Command Center</a></li>
+          <li><a href="index.html#shop">Ommani Shop</a></li>
+        </ul>
+        <button id="theme-toggle" aria-label="Switch to Dark Mode" title="Toggle Dark/Light Mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section>
+      <div class="container">
+        <a href="index.html#latest" style="display: inline-block; margin-bottom: 2rem; font-weight: 800;">&larr; Back to the Playroom</a>
+        
+        <article class="article-container">
+          <span class="tag">Life</span>
+          <h1>Sibling Teamwork and the Great Spider Prank</h1>
+          
+          <p class="lead">How a KiwiCo crate taught my kids patience, basic wiring, and the unfortunate reality that Dad is entirely un-scareable.</p>
+
+          <p>Keeping two energetic boys occupied while juggling a UI design degree, a creative studio, and the day-to-day chaos of a house full of pets isn't exactly a walk in the park. My go-to strategy lately has been channeling that endless energy into hands-on building projects.</p>
+
+          <p>Last weekend, we decided to tackle the <strong>Motion-Sensing Spider</strong> from KiwiCo's Tinker Crate line. Now, Tinker Crates are generally geared towards slightly older kids who are ready to dive into the deep end of STEM. But Deaglan (6) and Theodin (4) are always eager to get their hands on "big kid" projects—especially if it involves electronics, moving parts, or the potential for a really good prank.</p>
+
+          <h3>The Build (And a Parenting Win)</h3>
+          <p>What amazed me most wasn't the mechanics of the crate itself—which is essentially wiring up a battery pack, a motion sensor, and a motor to drop a spooky spider on unsuspecting victims. The real highlight was the dynamic between the boys.</p>
+
+          <p>Usually, a project with small parts and high anticipation ends in a minor squabble over who gets to connect what. But this time? They were incredibly patient. Deaglan gently helped guide Theodin's hands to place the smaller components onto the board, explaining what they were doing, while Theodin sat there being Deaglan's biggest, loudest cheerleader. </p>
+
+          <p>As a parent who is always trying to intentionally foster supportive play and give them the emotional tools to work through frustration together, watching them encourage each other through the tricky wiring steps was a massive win.</p>
+
+          <h3>The Prank</h3>
+          <p>Of course, let's be real: the entire motivation behind building a robotic, dropping spider was to scare their dad. Once the circuit was complete and the motion sensor was calibrated perfectly, we stealthily mounted the whole rig above the front door. We sat in the hallway, practically vibrating with hushed anticipation, waiting for Brad to get home from work.</p>
+
+          <p>The door opened. He stepped through. The sensor triggered, and the spider dropped perfectly right in front of his face.</p>
+
+          <p>Brad's reaction? Absolutely nothing. Not a flinch. Not a gasp. He didn't even drop his keys.</p>
+
+          <p>He just paused, looked at the spider dangling from its string, looked over at the three of us giggling in the hallway, and calmly said, "Nice wiring."</p>
+
+          <p>So, the prank was a total bust. But the project itself? A massive success.</p>
+
+          <div class="callout">
+            <h4>Fuel Your Own Side Quests</h4>
+            <p>If you're looking for a weekend activity that doubles as a lesson in STEM and sibling teamwork (and maybe you'll have better luck scaring someone in your house), I highly recommend checking out KiwiCo's project crates.</p>
+            <a href="YOUR_AFFILIATE_LINK_HERE" target="_blank" rel="noopener noreferrer">Grab your own Tinker Crate here!</a>
+          </div>
+          
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Geeky Mom Blog (Ommani Collective). Built with ☕ and accessibility in mind.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlEl = document.documentElement;
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+      htmlEl.setAttribute('data-theme', 'dark');
+      toggleBtn.textContent = '☀️';
+      toggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+    }
+    toggleBtn.addEventListener('click', () => {
+      if (htmlEl.getAttribute('data-theme') === 'dark') {
+        htmlEl.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        toggleBtn.textContent = '🌙';
+        toggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
+      } else {
+        htmlEl.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        toggleBtn.textContent = '☀️';
+        toggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+      }
+    });
+  </script>
+</body>
+</html>
