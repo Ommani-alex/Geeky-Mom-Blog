@@ -102,6 +102,16 @@
     ul, ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
     li { margin-bottom: 0.5rem; }
 
+    .tutorial-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+      margin: 1.5rem 0;
+      display: block;
+    }
+
     footer { padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
   </style>
 </head>
@@ -155,14 +165,18 @@
             <li>Once installed, it will automatically create a <code>photo</code> folder in your File Station. This is where all your backed-up images will live.</li>
           </ol>
 
+          <img src="images/image_622a6e.png" alt="Finding the Synology Photos app in the Synology Package Center" class="tutorial-image">
+
           <h3>Step 2: Automate Your Mobile Backups</h3>
           <p>The real magic happens when you never have to think about backing up your phone again.</p>
           <ol>
-            <li>Download the <strong>Synology Photos app</strong> on your phone (I run it on my Galaxy S26 Ultra, but it works perfectly on iPhones, too).</li>
+            <li>Download the <strong>Synology Photos app</strong> on your phone (I run it on my Galaxy S24 Ultra, but it works perfectly on iPhones, too).</li>
             <li>Log into the app using your QuickConnect ID or local NAS IP address.</li>
             <li>Go to <strong>Settings > Photo Backup</strong> and turn it on.</li>
             <li>You can configure it to only back up when you are connected to Wi-Fi so it doesn't eat your data plan. Now, every time I walk through my front door, any new pictures of the kids instantly sync to Jedi_Archives.</li>
           </ol>
+
+          <img src="images/image33099.jpg" alt="Screenshot of the Synology Photos mobile app showing backup settings enabled" class="tutorial-image">
 
           <h3>Step 3: Secure the Ommani Collective Assets</h3>
           <p>While Synology Photos is great for family albums, I needed a separate, organized space for my UI design coursework and Ommani Collective client assets. I do not want my wireframes mixing with pictures of the boys.</p>
@@ -170,8 +184,12 @@
             <li>Open <strong>Control Panel</strong> on your NAS and go to <strong>Shared Folder</strong>.</li>
             <li>Click <strong>Create</strong> and name it something like <code>Ommani_Assets</code>.</li>
             <li>Set your permissions so only your user account has read/write access.</li>
-            <li><em>Pro-Tip:</em> You can map this shared folder directly to your computer. On Windows, open File Explorer, right-click "This PC," and select "Map network drive." Type in <code>\\[Your_NAS_IP]\Ommani_Assets</code>. Now, it acts exactly like a local folder on your computer, but everything is safely stored and mirrored on the NAS.</li>
+            <li><em>Pro-Tip:</em> You can map this shared folder directly to your computer. On Windows, open File Explorer, right-click "This PC," and select "Map network drive". Type in <code>\\[Your_NAS_IP]\Ommani_Assets</code>. Now, it acts exactly like a local folder on your computer, but everything is safely stored and mirrored on the NAS.</li>
           </ol>
+
+          <img src="images/image_62322d.png" alt="Confirming the creation of a new Shared Folder named Ommani_Assets" class="tutorial-image">
+          <img src="images/image_6236ad.png" alt="Mapping the NAS shared folder to a network drive in Windows" class="tutorial-image">
+          <img src="images/Screenshot 2026-05-17 215543.png" alt="Viewing the mapped Ommani_Assets network drive in Windows File Explorer" class="tutorial-image">
 
           <h3>The Peace of Mind</h3>
           <p>Setting this up took an afternoon, but the relief is permanent. No more deleting old files to make room for new ones, no more worrying about losing ten years of memories if a phone gets dropped in a lake, and no more recurring cloud storage fees.</p>
