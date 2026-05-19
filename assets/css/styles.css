@@ -823,9 +823,14 @@ footer {
   max-width: 800px;
   background: var(--surface-soft);
   border: 2px solid var(--border);
+  border-top: 6px solid var(--brand);
   border-radius: 18px;
   padding: 1.35rem 1.5rem;
   margin: 1.5rem auto;
+}
+
+[data-theme="dark"] .troubleshooting-item {
+  border-top-color: var(--brand);
 }
 
 .troubleshooting-item h4 {
