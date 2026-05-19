@@ -750,3 +750,83 @@ footer {
   margin-left: auto;
   margin-right: auto;
 }
+.callout-info {
+  background:
+    radial-gradient(circle at top left, rgba(139, 185, 214, 0.2), transparent 34%),
+    var(--surface-soft);
+  border-left: 5px solid var(--blue);
+}
+
+.callout-warning {
+  background:
+    radial-gradient(circle at top left, rgba(255, 216, 107, 0.32), transparent 34%),
+    linear-gradient(135deg, #fff4c7, #ffe2d8);
+  border-left: 5px solid #d9822b;
+}
+
+.callout-danger {
+  background:
+    radial-gradient(circle at top left, rgba(255, 159, 183, 0.28), transparent 34%),
+    linear-gradient(135deg, #ffe0e8, #fff0d8);
+  border-left: 5px solid #c4455c;
+}
+
+.callout-success {
+  background:
+    radial-gradient(circle at top left, rgba(127, 215, 196, 0.24), transparent 34%),
+    linear-gradient(135deg, #e1f5ed, #f7f0d2);
+  border-left: 5px solid var(--accent);
+}
+
+[data-theme="dark"] .callout-info {
+  background:
+    radial-gradient(circle at top left, rgba(124, 199, 255, 0.16), transparent 34%),
+    #24283f;
+  border-left-color: var(--blue);
+}
+
+[data-theme="dark"] .callout-warning {
+  background:
+    radial-gradient(circle at top left, rgba(255, 216, 107, 0.18), transparent 34%),
+    #332b24;
+  border-left-color: var(--highlight);
+}
+
+[data-theme="dark"] .callout-danger {
+  background:
+    radial-gradient(circle at top left, rgba(255, 159, 183, 0.18), transparent 34%),
+    #3a2432;
+  border-left-color: var(--brand);
+}
+
+[data-theme="dark"] .callout-success {
+  background:
+    radial-gradient(circle at top left, rgba(127, 215, 196, 0.16), transparent 34%),
+    #233b38;
+  border-left-color: var(--accent);
+}
+
+.code-block {
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+}
+
+.troubleshooting-item {
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.troubleshooting-item h4 {
+  margin-top: 0;
+}
