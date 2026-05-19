@@ -3,16 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Geeky Mom Blog - A cozy, practical resource for parents who love tech, gaming, crafts, and making real life manageable." />
-  <title>Geeky Mom Blog | By Alex</title>
-  
+
+  <meta
+    name="description"
+    content="A practical guide to hosting a 7 Days to Die dedicated server on a Synology NAS using Docker and Synology Container Manager."
+  />
+
+  <title>How to Host a 7 Days to Die Server on a Synology NAS | Geeky Mom Blog</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
 
+<body>
   <header>
     <div class="nav-wrap">
       <a class="site-logo" href="index.html">
@@ -24,10 +33,11 @@
         <ul>
           <li><a href="index.html">Command Center</a></li>
           <li><a href="blog.html">Blog</a></li>
-          <li><a href="admin-panel.html">Tech</a></li>
+          <li><a href="admin-panel.html" aria-current="page">Tech</a></li>
           <li><a href="crafts.html">Crafts</a></li>
           <li><a href="playroom.html">Playroom</a></li>
         </ul>
+
         <button id="theme-toggle" aria-label="Switch to Dark Mode" title="Toggle Dark/Light Mode">🌙</button>
       </nav>
     </div>
@@ -37,88 +47,398 @@
     <section>
       <div class="container">
         <a href="admin-panel.html" class="back-link">&larr; Back to the Admin Panel</a>
-        
+
         <article class="article-container">
           <span class="tag">Tech</span>
-          <h1>How to Host a 7 Days to Die Server on a Synology NAS (And Keep Your Sanity)</h1>
-          
-          <p class="lead">Let’s be honest: getting a 7 Days to Die dedicated server running through Docker on a Synology NAS is a massive headache. It just is. But after enough trial, error, and contemplating throwing my laptop, I finally got ours up and running.</p>
 
-          <p>If you want to host your own private world without paying a monthly fee to rent a server, here is the exact process I used, along with a few common pitfalls to avoid.</p>
+          <h1>How to Host a 7 Days to Die Server on a Synology NAS</h1>
 
-          <h3>The Loadout (Hardware Requirements)</h3>
-          <p>Before you start clicking around in Docker, make sure your NAS actually has the resources to handle this. <em>7 Days to Die</em> requires a significant amount of memory and space.</p>
+          <p class="lead">
+            Let’s be honest: getting a 7 Days to Die dedicated server running through Docker on a Synology NAS is a massive headache. It just is. But after enough trial, error, and countless nights of research, I finally got it working smoothly.
+          </p>
+
+          <p>
+            This walkthrough is written for people using Synology Container Manager who want a private server for friends or family. I’m focusing on the parts that actually tripped me up: folder mapping, ports, XML edits, logs, and what to do when the container refuses to start.
+          </p>
+
+          <div class="callout callout-info">
+            <h4>📋 Quick Navigation</h4>
+            <ul>
+              <li><a href="#requirements">Hardware Requirements</a></li>
+              <li><a href="#step1">Step 1: Prep Your Folders</a></li>
+              <li><a href="#step2">Step 2: Grab the Docker Image</a></li>
+              <li><a href="#step3">Step 3: Configure the Container</a></li>
+              <li><a href="#step4">Step 4: Tweak serverconfig.xml</a></li>
+              <li><a href="#step5">Step 5: Hurry Up and Wait</a></li>
+              <li><a href="#troubleshooting">Troubleshooting Guide</a></li>
+            </ul>
+          </div>
+
+          <h3 id="requirements">The Loadout: Hardware Requirements</h3>
+
+          <p>
+            Before you start clicking around in Docker, make sure your NAS actually has the resources to handle this. <em>7 Days to Die</em> requires a significant amount of memory and space. Don’t skip this section. Underpowered hardware will result in constant crashes and headaches.
+          </p>
+
           <ul>
-            <li><strong>The NAS:</strong> <a href="https://www.bhphotovideo.com/c/product/1908413-REG/synology_diskstation_ds225_2_bay_nas.html" target="_blank" rel="noopener noreferrer">Synology DS255+</a> (Affectionately named Jedi_Archives)</li>
-            <li><strong>Memory:</strong> 18GB RAM. The absolute bare minimum memory you can get away with to run this game without it crashing when a blood moon hits is 8GB, but more is always better. Do not try to run this on the base 2GB or 4GB of RAM. The server will panic and crash the second you try to do anything. <em>(If you need to upgrade, these are the exact RAM sticks I recommend and use: <a href="https://www.newegg.com/samsung-16gb-ddr4-3200-cas-latency-cl22-memory/p/0RM-002H-00155?srsltid=AfmBOoozZOFs-TFdX4xFz07es8XW-kdKk8Cv2wRwU7EHyhPj6m5dkwca" target="_blank" rel="noopener noreferrer">Samsung 16GB DDR4 3200MHz RAM</a>)</em></li>
-            <li><strong>Storage:</strong> The server files and world generation need an absolute minimum of 30GB of free space. I am running <em>two</em> <a href="https://www.seagate.com/products/nas-drives/ironwolf-hard-drive/" target="_blank" rel="noopener noreferrer">12TB IronWolf Pro drives</a> set up as a mirror backup. This way, if one drive fails, I have full redundancy—which is vital because I use this NAS to back up a lot of family photos and videos, not just game servers.</li>
+            <li>
+              <strong>The NAS:</strong>
+              <a href="https://www.bhphotovideo.com/c/product/1908413-REG/synology_diskstation_ds225_2_bay_nas.html" target="_blank" rel="noopener noreferrer">Synology DS225 or comparable model</a>.
+              You need something with decent processing power, not just storage.
+            </li>
+
+            <li>
+              <strong>Memory:</strong>
+              Ideally 16GB or more for smoother gameplay, especially during blood moons. The absolute bare minimum I would consider is 8GB, but more RAM means fewer crashes and less panic.
+            </li>
+
+            <li>
+              <strong>Storage:</strong>
+              The server files and world generation need an absolute minimum of 30GB of free space. I am running two
+              <a href="https://www.seagate.com/products/nas-drives/" target="_blank" rel="noopener noreferrer">Seagate IronWolf drives</a>
+              for redundancy, but a single 4TB or larger drive can work if you are not using your NAS heavily for other things.
+            </li>
           </ul>
 
-          <h3>Step 1: Prep Your Folders</h3>
-          <p>If you haven't already, install the Container Manager (formerly Docker) from the Synology Package Center.</p>
+          <h3 id="step1">Step 1: Prep Your Folders</h3>
+
+          <p>
+            If you haven’t already, install Container Manager, formerly Docker, from the Synology Package Center. Without it, nothing else in this guide will work.
+          </p>
+
           <ul>
-            <li>Open File Station and navigate to your <code>docker</code> folder.</li>
-            <li>Create a new folder named <code>7dtd</code> (or whatever you want to call it). This keeps your game saves and the server files organized. Setting this up now is crucial so you don't lose your entire world save the next time the container updates.</li>
+            <li>Open File Station and navigate to your <code>docker</code> folder. Create it if it does not exist.</li>
+
+            <li>
+              Create a new folder named <code>7days</code>. Inside that folder, create four subfolders:
+              <code>serverfiles</code>, <code>log</code>, <code>7dtd-userdata</code>, and <code>lgsm-config</code>.
+            </li>
+
+            <li>
+              This structure keeps your game saves and server files organized. Setting this up now is crucial so you do not lose data later when you need to back things up or recreate the container.
+            </li>
+
+            <li>
+              <strong>Pro tip:</strong> Back up these folders regularly. Set a monthly reminder to download them to your computer as a safety net.
+            </li>
           </ul>
-          
-          <img src="images/image_5f5dee.png" alt="Creating a new folder named 7dtd in the Synology File Station interface" class="tutorial-image">
 
-          <h3>Step 2: Grab the Docker Image</h3>
-          <p>Open Container Manager, click over to the Registry, and search for a reliable 7DtD image. I highly recommend using the <code>vinanrra/7dtd-server</code> image. It’s the most consistently maintained option I’ve found for Synology setups. Download the <code>latest</code> tag.</p>
-          
-          <img src="images/image_5f7110.png" alt="Selecting the vinanrra/7dtd-server image in the Synology Container Manager registry" class="tutorial-image">
+          <img
+            src="images/image_5f5dee.png"
+            alt="Creating a new folder named 7days in the Synology File Station interface"
+            class="tutorial-image"
+          >
 
-          <h3>Step 3: Configure the Container (The Annoying Part)</h3>
-          <p>When you launch the image to create the container, you have to get your volume mapping, environment variables, and port forwarding exactly right, or absolutely nothing will work.</p>
-          
+          <h3 id="step2">Step 2: Grab the Docker Image</h3>
+
+          <p>
+            Open Container Manager, click over to the Registry, and search for a reliable 7DtD image. I recommend using the <code>vinanrra/7dtd-server</code> image because it has been the most consistent option I have found for this kind of Synology setup.
+          </p>
+
+          <p>
+            Avoid random images with no maintenance history. Game servers are already fussy enough without adding a mystery container into the mix.
+          </p>
+
+          <div class="callout callout-info">
+            <h4>Before You Download</h4>
+            <p>
+              Use the latest available version of the image and check that the repository has been updated recently. If an image has not been maintained in a long time, it may break when the game updates.
+            </p>
+          </div>
+
+          <img
+            src="images/image_5f7110.png"
+            alt="Selecting the vinanrra/7dtd-server image in the Synology Container Manager registry"
+            class="tutorial-image"
+          >
+
+          <h3 id="step3">Step 3: Configure the Container</h3>
+
+          <p>
+            This is the annoying part. When you launch the image to create the container, your volume mapping, environment variables, and port forwarding need to be right or the server will not behave. Triple-check this section before assuming the container is broken.
+          </p>
+
           <h4>Volume Mapping</h4>
-          <p>Map the local folders on your NAS to the container's internal data paths. Here is the exact mapping I use:</p>
-           <ul>
-               <li><code>/volume1/docker/7days/serverfiles</code> to <code>/home/sdtdserver/serverfiles:rw</code></li>
-               <li><code>/volume1/docker/7days/log</code> to <code>/home/sdtdserver/log:rw</code></li>
-               <li><code>/volume1/docker/7days/7dtd-userdata</code> to <code>/home/sdtdserver/.local/share/7DaysToDie:rw</code></li>
-               <li><code>/volume1/docker/7days/lgsm-config</code> to <code>/home/sdtdserver/lgsm/config-lgsm/sdtdserver:rw</code></li>
-           </ul>
-          
-          <img src="images/image_5f74ad.png" alt="Screenshot showing the correct volume mapping paths for the 7dtd Docker container" class="tutorial-image">
+
+          <p>
+            Map the local folders on your NAS to the container’s internal data paths. Here is the mapping structure I use:
+          </p>
+
+          <ul>
+            <li><code>/volume1/docker/7days/serverfiles</code> to <code>/home/sdtdserver/serverfiles:rw</code></li>
+            <li><code>/volume1/docker/7days/log</code> to <code>/home/sdtdserver/log:rw</code></li>
+            <li><code>/volume1/docker/7days/7dtd-userdata</code> to <code>/home/sdtdserver/.local/share/7DaysToDie:rw</code></li>
+            <li><code>/volume1/docker/7days/lgsm-config</code> to <code>/home/sdtdserver/lgsm/config-lgsm/sdtdserver:rw</code></li>
+          </ul>
+
+          <img
+            src="images/image_5f74ad.png"
+            alt="Screenshot showing the correct volume mapping paths for the 7 Days to Die Docker container"
+            class="tutorial-image"
+          >
 
           <h4>Port Forwarding</h4>
-          <p>You have to map the container ports to your local NAS ports. Then, you <em>must</em> log into your actual home router's admin panel, find the local IP address of your Synology NAS, and forward these exact ports to allow external traffic. Otherwise, your friends won't be able to join!</p>
+
+          <p>
+            You have to map the container ports to your local NAS ports. Then you also need to log into your home router’s admin panel, find the local IP address of your Synology NAS, and forward those same ports from your router to that NAS IP address.
+          </p>
+
           <ul>
-            <li><strong>26900</strong> (TCP/UDP)</li>
-            <li><strong>26901</strong> (UDP)</li>
-            <li><strong>26902</strong> (UDP)</li>
+            <li><strong>26900</strong> TCP/UDP, main game server port</li>
+            <li><strong>26901</strong> UDP, server query and communication port</li>
+            <li><strong>26902</strong> UDP, additional game/server communication port</li>
           </ul>
-            
-          <h4>Environment Variables</h4>
-          <p>In the container settings, look for the Environment tab. This is where you set the foundation of the server. You will need to add or edit the variables provided by the image to allocate your memory limits and define basic setup variables (like ensuring the server updates on restart). Give the container access to as much RAM as you can spare.</p>
-          
-          <img src="images/image_5fd5aa.png" alt="Screenshot of the Environment Variables tab in Synology Container Manager" class="tutorial-image">
 
-          <h3>Step 4: Tweak the serverconfig.xml</h3>
-          <p>Start the container for the first time. It won't be fully playable yet, but running it once forces it to generate an <code>sdtdserver.xml</code> file.</p>
-          <p>Stop the container. <em>Important note here:</em> I did not have access to a text editor directly inside Synology to edit this file. If you run into the same issue, here is the workaround:</p>
-          <ol>
-            <li>Download the file from File Station directly to your computer.</li>
-            <li><strong>Make a copy of the original file and save it somewhere safe before you delete or change anything, just in case something breaks.</strong></li>
-            <li>Open the downloaded file using your computer's native Notes app or Notepad.</li>
-            <li>This is where you set your world size, blood moon frequency, server name, password, and difficulty.</li>
-            <li>Tweak it to your liking, ensure it is still saved as an <code>.xml</code> file, and upload it back onto your NAS, overwriting the unedited version.</li>
-            <li>Fire the container back up.</li>
-          </ol>
-          
-          <img src="images/image_5fd683.png" alt="Screenshot of the server configuration XML file open in a text editor" class="tutorial-image">
+          <div class="callout callout-warning">
+            <h4>⚠️ Port Forwarding Warning</h4>
 
-          <h3>Step 5: Hurry Up and Wait</h3>
-          <p>When you restart the container, it has to download the actual game files via SteamCMD. This takes a while. Do not panic if it takes a while.</p>
-          <p>Open the container logs and keep an eye on it. If you see it fetching data, go grab a coffee and leave it alone. If you see a wall of red error text, take a deep breath, go verify your folder permissions (the container needs read/write access to that <code>7days</code> folder!), and restart it.</p>
-          <p>Once the log finally confirms the server has successfully started, boot up the game on your PC, search for your server name, enter your password, and start punching grass.</p>
+            <p>
+              <strong>If port forwarding is wrong, your friends will not be able to join your server.</strong>
+            </p>
 
-          <div class="callout">
-            <h4>🛑 Server Troubleshooting: Read This First!</h4>
-            <p><strong>ANY TIME THE SERVER CRASHES AND HAS ISSUES STARTING, RESTART THE NAS.</strong> This is the most common issue I have run into. STEP ONE SHOULD ALWAYS BE TO RESTART THE NAS. DO NOT TRY TO TROUBLESHOOT AND DELETE OR EDIT FILES UNTIL YOU RESTART. Most of the time, restarting fixes it, as the most common issue is with DNS. Restarting the NAS fixes all DNS issues.</p>
+            <p>Common mistakes include:</p>
+
+            <ul>
+              <li>Forwarding ports to the wrong local IP address</li>
+              <li>Using your public internet IP instead of your NAS’s local LAN IP</li>
+              <li>Forgetting to apply or save the router settings</li>
+              <li>Using TCP only when the port needs UDP or TCP/UDP</li>
+              <li>Your ISP blocking or interfering with the needed ports</li>
+            </ul>
+
+            <p>
+              <strong>How to find your NAS’s local IP:</strong>
+              Open Synology Control Panel, then Network, then General. Look for the IPv4 address. It usually starts with <code>192.168</code>.
+            </p>
           </div>
-          
+
+          <h4>Environment Variables</h4>
+
+          <p>
+            In the container settings, look for the Environment tab. This is where you set the foundation of the server. Your exact variables may vary depending on the image version, but these are the kinds of values you will usually need to check:
+          </p>
+
+          <div class="code-block">
+            <pre><code>BRANCH=public
+SERVERDATA=-configfile=serverconfig.xml
+VALIDATE=0
+MAXPLAYERS=8</code></pre>
+          </div>
+
+          <p><strong>What these do:</strong></p>
+
+          <ul>
+            <li><code>BRANCH=public</code>, uses the stable public game build</li>
+            <li><code>SERVERDATA</code>, points to the server configuration file</li>
+            <li><code>VALIDATE=0</code>, skips Steam file validation and can speed up startup</li>
+            <li><code>MAXPLAYERS=8</code>, sets your player limit, which should match what your NAS can realistically handle</li>
+          </ul>
+
+          <img
+            src="images/image_5fd5aa.png"
+            alt="Screenshot of the Environment Variables tab in Synology Container Manager"
+            class="tutorial-image"
+          >
+
+          <h3 id="step4">Step 4: Tweak the serverconfig.xml</h3>
+
+          <p>
+            Start the container for the first time. It will not be fully playable yet, but running it once forces it to generate a <code>serverconfig.xml</code> file. This first startup can take several minutes.
+          </p>
+
+          <p>
+            Stop the container before editing the config file. Synology does not always make it convenient to edit XML files directly, so this workaround is what actually helped me.
+          </p>
+
+          <ol>
+            <li>Open File Station and navigate to <code>/volume1/docker/7days/lgsm-config/sdtdserver/</code>.</li>
+            <li>Find the <code>serverconfig.xml</code> file and download it to your computer.</li>
+            <li><strong>Make a copy of the original file before changing anything.</strong> Name it something like <code>serverconfig-backup.xml</code>.</li>
+            <li>Open the downloaded file using a plain text editor, such as Notepad on Windows or TextEdit on Mac.</li>
+            <li>
+              Edit the settings you care about, such as server name, password, difficulty, world size, and day length.
+            </li>
+            <li>Save it as an <code>.xml</code> file. Do not accidentally save it as <code>.txt</code>.</li>
+            <li>Upload it back to the NAS and overwrite the unedited version.</li>
+            <li>Start the container again.</li>
+          </ol>
+
+          <p>Common settings to look for:</p>
+
+          <ul>
+            <li><code>&lt;property name="ServerName"&gt;</code>, your server’s name</li>
+            <li><code>&lt;property name="ServerPassword"&gt;</code>, password to join, or blank if public</li>
+            <li><code>&lt;property name="GameDifficulty"&gt;</code>, difficulty setting</li>
+            <li><code>&lt;property name="WorldGenSize"&gt;</code>, world size, such as 2048, 4096, 6144, or 8192</li>
+            <li><code>&lt;property name="DayLightLength"&gt;</code>, day cycle timing</li>
+          </ul>
+
+          <img
+            src="images/image_5fd683.png"
+            alt="Screenshot of the server configuration XML file open in a text editor"
+            class="tutorial-image"
+          >
+
+          <div class="callout callout-success">
+            <h4>💾 Backup Reminder</h4>
+            <p>
+              After you set up your server, download the <code>serverconfig.xml</code> file to your computer and keep it backed up. If your container crashes or needs to be recreated, you will want this file so you do not lose your settings.
+            </p>
+          </div>
+
+          <h3 id="step5">Step 5: Hurry Up and Wait</h3>
+
+          <p>
+            When you restart the container, it has to download the actual game files through SteamCMD. This can take 10 to 30 minutes depending on your internet speed. <strong>Do not panic if it takes a while.</strong> That is normal.
+          </p>
+
+          <p>Open the container logs and keep an eye on what it is doing:</p>
+
+          <ul>
+            <li>In Container Manager, right-click your running container and select View Log.</li>
+            <li>If you see lines about downloading or verifying files, that is a good sign.</li>
+            <li>If you see it fetching data, go grab a coffee and leave it alone.</li>
+            <li>If you see a wall of red error text, check your folder structure, permissions, XML file, and port setup.</li>
+          </ul>
+
+          <p>
+            Once the log confirms the server has successfully started, boot up the game on your PC, search for your server name, enter your password, and start punching grass.
+          </p>
+
+          <h3 id="troubleshooting">Server Troubleshooting Guide</h3>
+
+          <div class="callout callout-danger">
+            <h4>🛑 First Rule: Restart the NAS Before You Touch Files</h4>
+
+            <p>
+              <strong>If the server crashes, refuses to start, or gets stuck restarting, restart the entire NAS before editing or deleting anything.</strong>
+            </p>
+
+            <p>
+              This has solved most of the startup problems I personally ran into. A lot of the time, the issue is not your world save, container, or server files. It can be a DNS or system-level problem that clears after a full NAS restart.
+            </p>
+
+            <p>
+              <strong>Do this first:</strong> restart the NAS, wait for it to come fully back online, then start the container again and check the logs.
+            </p>
+          </div>
+
+          <h4>Common Issues and Fixes</h4>
+
+          <div class="troubleshooting-item">
+            <h4>❌ Server will not start or the container keeps crashing</h4>
+            <ul>
+              <li>Restart the entire NAS, not just the container.</li>
+              <li>Check that you have enough free RAM.</li>
+              <li>Verify your volume mappings are exactly correct.</li>
+              <li>Check the container logs for the actual error message.</li>
+              <li>Confirm your <code>serverconfig.xml</code> file did not accidentally save as a text file.</li>
+            </ul>
+          </div>
+
+          <div class="troubleshooting-item">
+            <h4>❌ Friends cannot find or join the server</h4>
+            <ul>
+              <li>Verify port forwarding is set up correctly in your router.</li>
+              <li>Make sure the ports are forwarded to your NAS’s local LAN IP.</li>
+              <li>Confirm the container is actually running.</li>
+              <li>Check your NAS firewall settings under Control Panel, then Security, then Firewall.</li>
+              <li>Ask a friend to try connecting directly using your public IP and port.</li>
+            </ul>
+          </div>
+
+          <div class="troubleshooting-item">
+            <h4>❌ Server freezes or crashes during blood moons</h4>
+            <ul>
+              <li>Your NAS may not have enough RAM for the player count or world size.</li>
+              <li>Reduce max players.</li>
+              <li>Reduce world size in the XML config.</li>
+              <li>Lower difficulty or other high-load settings if needed.</li>
+              <li>Consider upgrading RAM if your Synology model supports it.</li>
+            </ul>
+          </div>
+
+          <div class="troubleshooting-item">
+            <h4>❌ World or settings disappeared</h4>
+            <ul>
+              <li>This can happen if volumes were not mapped correctly.</li>
+              <li>Check that your data is stored in your mounted NAS folders, not only inside the container.</li>
+              <li>Restore your backed-up <code>serverconfig.xml</code> if needed.</li>
+              <li>Back up world data and config files regularly going forward.</li>
+            </ul>
+          </div>
+
+          <div class="troubleshooting-item">
+            <h4>❌ Container shows error status in Container Manager</h4>
+            <ul>
+              <li>Open the container logs before changing anything.</li>
+              <li>Look for missing files, invalid XML, permission errors, or port conflicts.</li>
+              <li>Stop the container, fix the specific issue, then start it again.</li>
+              <li>If the error is unclear, restart the NAS and check the logs again after reboot.</li>
+            </ul>
+          </div>
+
+          <h4>How to Access Your Server Logs</h4>
+
+          <ol>
+            <li>Open Container Manager.</li>
+            <li>Find your 7DTD container in the list.</li>
+            <li>Right-click it and select View Log, or click the container and look for the Log option.</li>
+            <li>Scroll to the bottom to see the most recent activity.</li>
+            <li>Look for specific error messages instead of guessing.</li>
+          </ol>
+
+          <h4>Nuclear Option: Reset and Start Over</h4>
+
+          <p>
+            If nothing else works and you need a clean start, do not delete things blindly. Back up anything you care about first.
+          </p>
+
+          <ol>
+            <li>Stop the container.</li>
+            <li>Download a backup of your <code>serverconfig.xml</code> and any world/save folders you care about.</li>
+            <li>Rename your current <code>/volume1/docker/7days</code> folder instead of deleting it immediately.</li>
+            <li>Create a fresh folder structure following Step 1 again.</li>
+            <li>Delete the broken container from Container Manager.</li>
+            <li>Recreate it from scratch following Step 2 and Step 3.</li>
+            <li>Only delete the old folder after you are absolutely sure you no longer need anything from it.</li>
+          </ol>
+
+          <h4>Still Stuck?</h4>
+
+          <p>These resources are worth checking:</p>
+
+          <ul>
+            <li>
+              <a href="https://github.com/vinanrra/7dtd-server-docker" target="_blank" rel="noopener noreferrer">vinanrra/7dtd-server-docker on GitHub</a>,
+              the official repository and documentation for the Docker image.
+            </li>
+            <li>
+              <a href="https://forums.7daystodie.com/" target="_blank" rel="noopener noreferrer">7 Days to Die Forums</a>,
+              community support and troubleshooting.
+            </li>
+            <li>
+              Your container logs, which are usually the best diagnostic tool.
+            </li>
+          </ul>
+
+          <div class="callout callout-success">
+            <h4>✅ Success Checklist</h4>
+
+            <ul>
+              <li>Container is running and shows healthy/active status.</li>
+              <li>Container logs show the server started successfully.</li>
+              <li>You can find your server in game.</li>
+              <li>You can join and play without immediate crashes.</li>
+              <li>Your friends can connect from outside your network.</li>
+              <li>You have a backup of your <code>serverconfig.xml</code>.</li>
+              <li>You have tested the server under real gameplay load.</li>
+            </ul>
+
+            <p>
+              Congratulations. If you made it this far, you successfully set up a 7 Days to Die server on your Synology NAS. Go enjoy your private apocalypse with friends. 🧟‍♂️
+            </p>
+          </div>
         </article>
       </div>
     </section>
