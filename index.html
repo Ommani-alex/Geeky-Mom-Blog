@@ -326,7 +326,18 @@
       background: rgba(210, 166, 161, 0.4);
       border: 1px solid rgba(0,0,0,0.05);
     }
+.shop-section {
+  background:
+    radial-gradient(circle at top left, rgba(255, 217, 119, 0.28), transparent 32%),
+    linear-gradient(135deg, var(--accent-soft), var(--lavender-soft));
+}
 
+[data-theme="dark"] .shop-section {
+  background:
+    radial-gradient(circle at top left, rgba(255, 216, 107, 0.18), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(127, 215, 196, 0.16), transparent 34%),
+    linear-gradient(135deg, #22243a, #263f46);
+}
     .tag {
       display: inline-block;
       margin-bottom: 1rem;
