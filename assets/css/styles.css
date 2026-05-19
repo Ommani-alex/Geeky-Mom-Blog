@@ -595,71 +595,91 @@ footer {
   .section-heading {
     align-items: flex-start;
   }
+}
+
 /* =========================================================
    Long-form tutorial/article pages
-   Fixes spacing, flow, image rhythm, and warning emphasis
    ========================================================= */
 
+.article-page-section {
+  padding-top: 3rem;
+}
+
 .article-container {
-  max-width: 860px;
+  max-width: 920px;
   margin: 0 auto;
   background: var(--surface);
   border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: 22px;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
   box-shadow: var(--shadow);
 }
 
-.article-container > * + * {
-  margin-top: 1.15rem;
+.article-container > * {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .article-container h1 {
-  margin-top: 0.75rem;
-  margin-bottom: 1.25rem;
-  max-width: 13ch;
+  max-width: 760px;
+  margin-top: 0.85rem;
+  margin-bottom: 1.4rem;
+  font-size: clamp(2.25rem, 5vw, 4.2rem);
+  line-height: 1.02;
 }
 
 .article-container .lead {
-  max-width: 72ch;
-  margin-bottom: 2rem;
+  max-width: 760px;
+  margin-bottom: 1.75rem;
+  font-size: clamp(1.12rem, 2vw, 1.32rem);
+  line-height: 1.75;
 }
 
-.article-container h3 {
-  margin-top: 3rem;
-  margin-bottom: 0.85rem;
-  padding-top: 1.25rem;
-  border-top: 2px dashed var(--border);
-  font-size: clamp(1.45rem, 3vw, 2rem);
-}
-
-.article-container h4 {
-  margin-top: 2rem;
-  margin-bottom: 0.65rem;
-  font-size: 1.2rem;
-  color: var(--brand-dark);
+.article-container p {
+  margin-bottom: 1.25rem;
 }
 
 .article-container p,
 .article-container li {
-  font-size: 1.03rem;
+  font-size: 1.06rem;
+  line-height: 1.78;
+}
+
+.article-container h3 {
+  max-width: 760px;
+  margin-top: 4.25rem;
+  margin-bottom: 1.15rem;
+  padding-top: 1.35rem;
+  border-top: 2px dashed var(--border);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.article-container h4 {
+  max-width: 760px;
+  margin-top: 2.75rem;
+  margin-bottom: 0.85rem;
+  font-size: 1.35rem;
+  color: var(--brand-dark);
 }
 
 .article-container ul,
 .article-container ol {
+  max-width: 760px;
   padding-left: 1.35rem;
-  margin-bottom: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
 }
 
 .article-container li + li {
-  margin-top: 0.75rem;
+  margin-top: 0.8rem;
 }
 
 .article-container code {
   background: var(--surface-soft);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.1rem 0.35rem;
+  border-radius: 7px;
+  padding: 0.12rem 0.38rem;
   font-size: 0.92em;
 }
 
@@ -667,55 +687,9 @@ footer {
   color: var(--muted);
 }
 
-.tutorial-image {
-  width: 100%;
-  max-width: 820px;
-  margin: 2rem auto 2.75rem;
-  border: 2px solid var(--border);
-  border-radius: 14px;
-  box-shadow: var(--shadow);
-  background: var(--surface-soft);
-}
-
-.article-container .callout {
-  margin-top: 3.5rem;
-  padding: clamp(1.25rem, 4vw, 2rem);
-  border: 3px solid var(--ink);
-  border-radius: var(--radius);
-  background:
-    radial-gradient(circle at top left, rgba(255, 216, 107, 0.35), transparent 34%),
-    linear-gradient(135deg, #fff2bd, #ffe1d8);
-  color: #302b33;
-  box-shadow: 6px 6px 0 var(--ink);
-}
-
-.article-container .callout h4 {
-  margin-top: 0;
-  color: #302b33;
-  font-size: clamp(1.4rem, 3vw, 2rem);
-}
-
-.article-container .callout p {
-  font-size: 1.08rem;
-  margin-bottom: 0;
-}
-
-[data-theme="dark"] .article-container .callout {
-  background:
-    radial-gradient(circle at top left, rgba(255, 216, 107, 0.35), transparent 34%),
-    linear-gradient(135deg, #3a2f1c, #4a2634);
-  color: #fff7ed;
-  border-color: var(--highlight);
-  box-shadow: 6px 6px 0 rgba(255, 216, 107, 0.55);
-}
-
-[data-theme="dark"] .article-container .callout h4 {
-  color: var(--highlight);
-}
-
 .back-link {
   display: inline-block;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-weight: 800;
   text-decoration: none;
 }
@@ -724,10 +698,160 @@ footer {
   text-decoration: underline;
 }
 
-/* =========================================================
-   Blog page bottom CTA refresh
-   Replaces boring green with modern geeky gradient
-   ========================================================= */
+/* Tutorial images */
+
+.tutorial-image {
+  width: min(100%, 860px);
+  max-width: 860px;
+  margin: 2.5rem auto 3.75rem;
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  background: var(--surface-soft);
+}
+
+.article-container .tutorial-image {
+  max-width: 860px;
+}
+
+/* Code blocks */
+
+.code-block {
+  max-width: 760px;
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  margin: 1.75rem auto 2.25rem;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+}
+
+.code-block code {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+/* Callouts */
+
+.article-container .callout {
+  max-width: 800px;
+  margin: 2.75rem auto;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 2px solid var(--border);
+  border-left-width: 8px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.article-container .callout h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+  font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+}
+
+.article-container .callout p:last-child,
+.article-container .callout ul:last-child,
+.article-container .callout ol:last-child {
+  margin-bottom: 0;
+}
+
+.callout-info {
+  background:
+    radial-gradient(circle at top left, rgba(139, 185, 214, 0.22), transparent 34%),
+    var(--surface-soft);
+  border-left-color: var(--blue);
+}
+
+.callout-warning {
+  background:
+    radial-gradient(circle at top left, rgba(255, 216, 107, 0.32), transparent 34%),
+    linear-gradient(135deg, #fff4c7, #ffe2d8);
+  border-left-color: #d9822b;
+}
+
+.callout-danger {
+  background:
+    radial-gradient(circle at top left, rgba(255, 159, 183, 0.3), transparent 34%),
+    linear-gradient(135deg, #ffe0e8, #fff0d8);
+  border-left-color: #c4455c;
+}
+
+.callout-success {
+  background:
+    radial-gradient(circle at top left, rgba(127, 215, 196, 0.24), transparent 34%),
+    linear-gradient(135deg, #e1f5ed, #f7f0d2);
+  border-left-color: var(--accent);
+}
+
+[data-theme="dark"] .callout-info {
+  background:
+    radial-gradient(circle at top left, rgba(124, 199, 255, 0.16), transparent 34%),
+    #24283f;
+  border-left-color: var(--blue);
+}
+
+[data-theme="dark"] .callout-warning {
+  background:
+    radial-gradient(circle at top left, rgba(255, 216, 107, 0.18), transparent 34%),
+    #332b24;
+  border-left-color: var(--highlight);
+}
+
+[data-theme="dark"] .callout-danger {
+  background:
+    radial-gradient(circle at top left, rgba(255, 159, 183, 0.2), transparent 34%),
+    #3a2432;
+  border-left-color: var(--brand);
+}
+
+[data-theme="dark"] .callout-success {
+  background:
+    radial-gradient(circle at top left, rgba(127, 215, 196, 0.16), transparent 34%),
+    #233b38;
+  border-left-color: var(--accent);
+}
+
+/* Troubleshooting cards */
+
+.troubleshooting-item {
+  max-width: 800px;
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  padding: 1.35rem 1.5rem;
+  margin: 1.5rem auto;
+}
+
+.troubleshooting-item h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+}
+
+.troubleshooting-item ul {
+  margin-bottom: 0;
+}
+
+/* Strong final warning style */
+
+#troubleshooting + .callout-danger {
+  border: 3px solid var(--brand-dark);
+  border-left-width: 10px;
+  box-shadow: 6px 6px 0 rgba(159, 82, 99, 0.35);
+}
+
+[data-theme="dark"] #troubleshooting + .callout-danger {
+  border-color: var(--brand);
+  box-shadow: 6px 6px 0 rgba(255, 159, 183, 0.35);
+}
+
+/* Blog page bottom CTA refresh */
 
 .cta {
   background:
@@ -750,83 +874,37 @@ footer {
   margin-left: auto;
   margin-right: auto;
 }
-.callout-info {
-  background:
-    radial-gradient(circle at top left, rgba(139, 185, 214, 0.2), transparent 34%),
-    var(--surface-soft);
-  border-left: 5px solid var(--blue);
-}
 
-.callout-warning {
-  background:
-    radial-gradient(circle at top left, rgba(255, 216, 107, 0.32), transparent 34%),
-    linear-gradient(135deg, #fff4c7, #ffe2d8);
-  border-left: 5px solid #d9822b;
-}
+/* Article mobile refinements */
 
-.callout-danger {
-  background:
-    radial-gradient(circle at top left, rgba(255, 159, 183, 0.28), transparent 34%),
-    linear-gradient(135deg, #ffe0e8, #fff0d8);
-  border-left: 5px solid #c4455c;
-}
+@media (max-width: 700px) {
+  section {
+    padding: 3rem 1rem;
+  }
 
-.callout-success {
-  background:
-    radial-gradient(circle at top left, rgba(127, 215, 196, 0.24), transparent 34%),
-    linear-gradient(135deg, #e1f5ed, #f7f0d2);
-  border-left: 5px solid var(--accent);
-}
+  .article-container {
+    padding: 1.25rem;
+    border-radius: 18px;
+  }
 
-[data-theme="dark"] .callout-info {
-  background:
-    radial-gradient(circle at top left, rgba(124, 199, 255, 0.16), transparent 34%),
-    #24283f;
-  border-left-color: var(--blue);
-}
+  .article-container h1 {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
 
-[data-theme="dark"] .callout-warning {
-  background:
-    radial-gradient(circle at top left, rgba(255, 216, 107, 0.18), transparent 34%),
-    #332b24;
-  border-left-color: var(--highlight);
-}
+  .article-container p,
+  .article-container li {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
 
-[data-theme="dark"] .callout-danger {
-  background:
-    radial-gradient(circle at top left, rgba(255, 159, 183, 0.18), transparent 34%),
-    #3a2432;
-  border-left-color: var(--brand);
-}
+  .tutorial-image {
+    margin: 2rem auto 3rem;
+    border-radius: 14px;
+  }
 
-[data-theme="dark"] .callout-success {
-  background:
-    radial-gradient(circle at top left, rgba(127, 215, 196, 0.16), transparent 34%),
-    #233b38;
-  border-left-color: var(--accent);
-}
-
-.code-block {
-  background: var(--surface-soft);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 1.5rem 0;
-  overflow-x: auto;
-}
-
-.code-block pre {
-  margin: 0;
-}
-
-.troubleshooting-item {
-  background: var(--surface-soft);
-  border: 2px solid var(--border);
-  border-radius: 14px;
-  padding: 1.25rem;
-  margin: 1.5rem 0;
-}
-
-.troubleshooting-item h4 {
-  margin-top: 0;
+  .article-container .callout,
+  .troubleshooting-item {
+    margin: 2rem auto;
+    padding: 1.15rem;
+  }
 }
