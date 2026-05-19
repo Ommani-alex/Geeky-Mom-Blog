@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Browse all Geeky Mom Blog posts about tech, home servers, crafts, happy mail, geeky parenting, low-energy systems, and real-life side quests."
+  />
+
+  <title>Blog | Geeky Mom Blog</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      /* Cozy, Paper-Craft Light Mode Palette */
+      --bg: #faf7f2;
+      --grid-color: #e8e3dc;
+      --surface: #ffffff;
+      --surface-soft: #f0ebe1;
+      --ink: #3a3536;
+      --muted: #7a7375;
+      --brand: #c6878f;
+      --brand-dark: #9e646b;
+      --accent: #8b9a8b;
+      --accent-soft: #dce3dc;
+      --highlight: #f4d06f;
+      --border: #e0d8d0;
+      --shadow: 4px 4px 0px rgba(158, 100, 107, 0.15);
+      --radius: 16px;
+      --max-width: 1120px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1a24;
+      --grid-color: #2a2a35;
+      --surface: #252530;
+      --surface-soft: #30303e;
+      --ink: #f0ebe1;
+      --muted: #a09da5;
+      --brand: #e8a5ad;
+      --brand-dark: #ffb8b1;
+      --accent: #a3c4a3;
+      --accent-soft: #384638;
+      --highlight: #ffd97d;
+      --border: #3f3f50;
+      --shadow: 4px 4px 0px rgba(255, 184, 177, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 24px 24px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--brand-dark);
+      text-decoration-thickness: 0.12em;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px dashed var(--brand);
+      outline-offset: 4px;
+      border-radius: 8px;
+    }
+
+    .handwritten {
+      font-family: 'Caveat', cursive;
+      color: var(--brand-dark);
+      font-size: 1.5em;
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 2px dashed var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.8rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .site-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--brand);
+      color: var(--surface);
+      font-weight: 900;
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0px var(--ink);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a:hover,
+    nav a[aria-current="page"] {
+      background: var(--accent-soft);
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    #theme-toggle {
+      background: var(--surface-soft);
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+    }
+
+    #theme-toggle:hover {
+      background: var(--highlight);
+      border-color: var(--ink);
+    }
+
+    main {
+      padding: 0;
+    }
+
+    section {
+      padding: 4.5rem 1.25rem;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.1;
+      margin: 0 0 1rem;
+      color: var(--ink);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    .lead {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 68ch;
+      margin: 0 0 1.5rem;
+    }
+
+    .hero {
+      padding-top: 5rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero-panel {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(1.5rem, 4vw, 3rem);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .hero-panel::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 2rem;
+      width: 85px;
+      height: 24px;
+      background: rgba(210, 166, 161, 0.45);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transform: rotate(-3deg);
+    }
+
+    .category-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 2px solid var(--border);
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .pill:hover {
+      background: var(--highlight);
+      color: #3a3536;
+      border-color: var(--ink);
+    }
+
+    .blog-section {
+      border-top: 2px dashed var(--border);
+    }
+
+    .blog-section:nth-of-type(even) {
+      background: var(--surface-soft);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      width: 60px;
+      height: 20px;
+      background: rgba(210, 166, 161, 0.4);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .card h3 a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card h3 a:hover {
+      color: var(--brand-dark);
+      text-decoration: underline;
+      text-decoration-thickness: 0.12em;
+      text-underline-offset: 0.18em;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: var(--highlight);
+      color: #3a3536;
+      font-weight: 800;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .post-meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 1rem;
+    }
+
+    .empty-card {
+      border-style: dashed;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .cta {
+      background: var(--accent-soft);
+      border-top: 2px dashed var(--border);
+      border-bottom: 2px dashed var(--border);
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(1.5rem, 4vw, 3rem);
+      box-shadow: var(--shadow);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 800;
+      text-decoration: none;
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0px var(--ink);
+      transition: all 0.15s ease;
+      background: var(--brand);
+      color: #fff;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      color: #fff;
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    footer {
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @media (max-width: 860px) {
+      .section-heading {
+        align-items: flex-start;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      nav ul {
+        gap: 0.25rem;
+      }
+
+      nav a {
+        padding: 0.35rem 0.55rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav-wrap">
+      <a class="site-logo" href="index.html">
+        <span class="logo-mark" aria-hidden="true">GM</span>
+        <span>Geeky Mom Blog</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Command Center</a></li>
+          <li><a href="blog.html" aria-current="page">Blog</a></li>
+          <li><a href="admin-panel.html">Tech</a></li>
+          <li><a href="crafts.html">Crafts</a></li>
+          <li><a href="playroom.html">Playroom</a></li>
+        </ul>
+
+        <button id="theme-toggle" aria-label="Switch to Dark Mode" title="Toggle Dark/Light Mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-panel">
+          <span class="handwritten">Browse the save files</span>
+          <h1>The Geeky Mom Blog Library</h1>
+          <p class="lead">
+            A growing collection of posts about home tech, parenting side quests, creative projects,
+            low-energy systems, stickers, happy mail, and the real-life chaos behind it all.
+          </p>
+
+          <div class="category-nav" aria-label="Blog categories">
+            <a class="pill" href="#featured">Featured Posts</a>
+            <a class="pill" href="#tech">Tech & Home Servers</a>
+            <a class="pill" href="#crafts">Crafts & Happy Mail</a>
+            <a class="pill" href="#parenting">Geeky Parenting</a>
+            <a class="pill" href="#systems">Low-Energy Systems</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="featured" class="blog-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Featured Save Files</h2>
+            <p class="lead">Start here if you want the current heart of the blog.</p>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="tag">Tech</span>
+            <h3><a href="7dtd-server.html">How to Host a 7 Days to Die Server on a Synology NAS</a></h3>
+            <p>A practical guide to setting up a dedicated Docker container for 7 Days to Die without losing your sanity.</p>
+            <p class="post-meta">Category: Tech & Home Servers</p>
+          </article>
+
+          <article class="card">
+            <span class="tag">Crafts</span>
+            <h3><a href="pastel-happy-mail.html">How I Built a Pastel Happy Mail Swap Box</a></h3>
+            <p>A cozy craft post about themed happy mail, paper goods, stickers, and building something thoughtful from small details.</p>
+            <p class="post-meta">Category: Crafts & Happy Mail</p>
+          </article>
+
+          <article class="card">
+            <span class="tag">Life</span>
+            <h3><a href="kiwico-spider.html">Sibling Teamwork and the Great Spider Prank</a></h3>
+            <p>A geeky parenting story about a KiwiCo project, teamwork, patience, basic wiring, and a prank that almost worked.</p>
+            <p class="post-meta">Category: Geeky Parenting</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tech" class="blog-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Tech & Home Servers</h2>
+            <p class="lead">Home networking, family backups, self-hosted tools, and digital command center projects.</p>
+          </div>
+          <a class="pill" href="admin-panel.html">Open The Admin Panel</a>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="tag">Server</span>
+            <h3><a href="7dtd-server.html">How to Host a 7 Days to Die Server on a Synology NAS</a></h3>
+            <p>A step-by-step home server guide for running a dedicated 7 Days to Die world with Docker.</p>
+            <p class="post-meta">Good for: Synology, Docker, game servers</p>
+          </article>
+
+          <article class="card">
+            <span class="tag">Backup</span>
+            <h3><a href="synology-photos.html">Setting Up a Synology NAS for Family Photos</a></h3>
+            <p>How I think about protecting family memories, design files, and digital clutter with a home NAS setup.</p>
+            <p class="post-meta">Good for: family photos, backup systems, digital organization</p>
+          </article>
+
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>Future Tech Post Idea</h3>
+            <p>Possible topics: GitHub Pages setup, family tech safety, digital decluttering, or accessibility checks for small websites.</p>
+            <p class="post-meta">Use this slot when you publish your next tech post.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="crafts" class="blog-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Crafts & Happy Mail</h2>
+            <p class="lead">Paper crafts, stickers, Cricut experiments, junk journaling, giftable projects, and creative dopamine.</p>
+          </div>
+          <a class="pill" href="crafts.html">Open Craft Quests</a>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="tag">Happy Mail</span>
+            <h3><a href="pastel-happy-mail.html">How I Built a Pastel Happy Mail Swap Box</a></h3>
+            <p>A soft, thoughtful project post for happy mail swaps, tiny treasures, and making someone feel seen.</p>
+            <p class="post-meta">Good for: happy mail, stickers, paper crafts</p>
+          </article>
+
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>Sticker Making Supply Guide</h3>
+            <p>A future affiliate-friendly post about sticker paper, lamination, Cricut cutting, printers, and packaging.</p>
+            <p class="post-meta">High traffic potential: Cricut + stickers</p>
+          </article>
+
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>UV Resin + Paper Craft Ideas</h3>
+            <p>A future post connecting resin charms, bookmarks, suncatchers, pendants, and market-friendly handmade items.</p>
+            <p class="post-meta">High traffic potential: resin crafts + market prep</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="parenting" class="blog-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Geeky Parenting & Playroom Notes</h2>
+            <p class="lead">Kid projects, emotional safety, sensory-aware parenting, snacks, school prep, and tiny adventures.</p>
+          </div>
+          <a class="pill" href="playroom.html">Open The Playroom</a>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="tag">Kids</span>
+            <h3><a href="kiwico-spider.html">Sibling Teamwork and the Great Spider Prank</a></h3>
+            <p>A small family project that turned into a story about patience, teamwork, and geeky kid joy.</p>
+            <p class="post-meta">Good for: KiwiCo, STEM play, parenting stories</p>
+          </article>
+
+          <article class="card">
+            <span class="tag">School</span>
+            <h3><a href="kindergarten-portfolio.html">Kindergarten Portfolio and Prep</a></h3>
+            <p>A practical look at school readiness, kid keepsakes, snack planning, and making big transitions feel less overwhelming.</p>
+            <p class="post-meta">Good for: kindergarten prep, parent organization</p>
+          </article>
+
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>Preparing Kids for Big Feelings</h3>
+            <p>A future post about honest explanations, sensory tools, emotional safety, and helping kids feel brave without pretending things are easy.</p>
+            <p class="post-meta">High traffic potential: parenting + emotional regulation</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="systems" class="blog-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Low-Energy Systems</h2>
+            <p class="lead">Real-life routines, adaptive tools, and practical setups for days when motivation is not enough.</p>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>ADHD-Friendly Command Center Ideas</h3>
+            <p>A future post about visual systems, routines, reminders, and making daily life easier without relying on willpower.</p>
+            <p class="post-meta">Affiliate-friendly: planners, labels, carts, timers, apps</p>
+          </article>
+
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>Low-Effort Hydration Station</h3>
+            <p>A future post about water bottles, electrolytes, tea stations, and making hydration more automatic.</p>
+            <p class="post-meta">Affiliate-friendly: bottles, electrolytes, organizers</p>
+          </article>
+
+          <article class="card empty-card">
+            <span class="tag">Coming Soon</span>
+            <h3>Favorite Tools for Overwhelmed Brains</h3>
+            <p>A future resources-style post about the items, apps, and setups that make daily life a little more manageable.</p>
+            <p class="post-meta">Affiliate-friendly: sensory tools, tech, home systems</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <span class="handwritten">More quests loading...</span>
+          <h2>Want to start from the beginning?</h2>
+          <p class="lead" style="margin-left: auto; margin-right: auto;">
+            Head back to the command center for the homepage, featured categories, and the current shop/resource section.
+          </p>
+          <a class="btn" href="index.html">Back to Command Center</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Geeky Mom Blog. Built with ☕ and accessibility in mind.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const toggleBtn = document.getElementById("theme-toggle");
+    const htmlEl = document.documentElement;
+
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme === "dark") {
+      htmlEl.setAttribute("data-theme", "dark");
+      toggleBtn.textContent = "☀️";
+      toggleBtn.setAttribute("aria-label", "Switch to Light Mode");
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      if (htmlEl.getAttribute("data-theme") === "dark") {
+        htmlEl.removeAttribute("data-theme");
+        localStorage.setItem("theme", "light");
+        toggleBtn.textContent = "🌙";
+        toggleBtn.setAttribute("aria-label", "Switch to Dark Mode");
+      } else {
+        htmlEl.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+        toggleBtn.textContent = "☀️";
+        toggleBtn.setAttribute("aria-label", "Switch to Light Mode");
+      }
+    });
+  </script>
+</body>
+</html>
