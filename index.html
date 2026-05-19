@@ -116,13 +116,19 @@
 
     /* Header & Navigation */
     header {
-      background: var(--surface);
-      border-bottom: 2px dashed var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
+  background: rgba(255, 253, 249, 0.88);
+  border-bottom: 2px dashed var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 8px 24px rgba(48, 43, 51, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+[data-theme="dark"] header {
+  background: rgba(35, 35, 55, 0.88);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
 
     .nav-wrap {
       max-width: var(--max-width);
@@ -260,7 +266,20 @@
       background: var(--accent);
       color: #fff;
     }
+    [data-theme="dark"] .btn-primary {
+  background: linear-gradient(135deg, var(--brand), var(--lavender));
+  color: #171827;
+}
 
+[data-theme="dark"] .btn-secondary {
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  color: #171827;
+}
+
+[data-theme="dark"] .tag {
+  background: linear-gradient(135deg, var(--highlight), var(--peach));
+  color: #171827;
+}
     /* Hero Section */
     .hero-grid {
       display: grid;
