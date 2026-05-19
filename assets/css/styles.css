@@ -197,7 +197,31 @@ header {
   border: 2px solid var(--ink);
   box-shadow: 2px 2px 0px var(--ink);
 }
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  flex-shrink: 0;
+}
 
+.site-logo-img {
+  display: block;
+  width: clamp(230px, 32vw, 430px);
+  height: auto;
+}
+
+.logo-dark {
+  display: none;
+}
+
+[data-theme="dark"] .logo-light {
+  display: none;
+}
+
+[data-theme="dark"] .logo-dark {
+  display: block;
+}
 nav {
   display: flex;
   align-items: center;
@@ -597,6 +621,11 @@ footer {
   }
 }
 
+@media (max-width: 700px) {
+  .site-logo-img {
+    width: min(78vw, 340px);
+  }
+}
 /* =========================================================
    Long-form tutorial/article pages
    ========================================================= */
