@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,7 +36,7 @@
   <main id="main-content">
     <section>
       <div class="container">
-        <a href="admin-panel.html" style="display: inline-block; margin-bottom: 2rem; font-weight: 800;">&larr; Back to the Admin Panel</a>
+        <a href="admin-panel.html" class="back-link">&larr; Back to the Admin Panel</a>
         
         <article class="article-container">
           <span class="tag">Tech</span>
@@ -131,34 +130,6 @@
     </div>
   </footer>
 
-  <script>
-    // Set Current Year
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Dark Mode Toggle Logic
-    const toggleBtn = document.getElementById('theme-toggle');
-    const htmlEl = document.documentElement;
-    
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-      htmlEl.setAttribute('data-theme', 'dark');
-      toggleBtn.textContent = '☀️';
-      toggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      if (htmlEl.getAttribute('data-theme') === 'dark') {
-        htmlEl.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        toggleBtn.textContent = '🌙';
-        toggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
-      } else {
-        htmlEl.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        toggleBtn.textContent = '☀️';
-        toggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
-      }
-    });
-  </script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
