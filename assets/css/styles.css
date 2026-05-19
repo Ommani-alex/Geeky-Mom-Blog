@@ -838,18 +838,6 @@ footer {
   margin-bottom: 0;
 }
 
-/* Strong final warning style */
-
-#troubleshooting + .callout-danger {
-  border: 3px solid var(--brand-dark);
-  border-left-width: 10px;
-  box-shadow: 6px 6px 0 rgba(159, 82, 99, 0.35);
-}
-
-[data-theme="dark"] #troubleshooting + .callout-danger {
-  border-color: var(--brand);
-  box-shadow: 6px 6px 0 rgba(255, 159, 183, 0.35);
-}
 .issue-label {
   display: inline-block;
   margin: 0 0 0.75rem;
@@ -866,6 +854,19 @@ footer {
 [data-theme="dark"] .issue-label {
   background: linear-gradient(135deg, var(--highlight), var(--peach));
   color: #171827;
+}
+
+/* Strong final warning style */
+
+#troubleshooting + .callout-danger {
+  border: 3px solid var(--brand-dark);
+  border-left-width: 10px;
+  box-shadow: 6px 6px 0 rgba(159, 82, 99, 0.35);
+}
+
+[data-theme="dark"] #troubleshooting + .callout-danger {
+  border-color: var(--brand);
+  box-shadow: 6px 6px 0 rgba(255, 159, 183, 0.35);
 }
 /* Blog page bottom CTA refresh */
 
