@@ -855,7 +855,29 @@ footer {
   background: linear-gradient(135deg, var(--highlight), var(--peach));
   color: #171827;
 }
+.issue-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+}
 
+.issue-heading::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--peach));
+  box-shadow: 0 0 0 4px rgba(216, 137, 155, 0.18);
+}
+
+[data-theme="dark"] .issue-heading::before {
+  background: linear-gradient(135deg, var(--brand), var(--highlight));
+  box-shadow: 0 0 0 4px rgba(255, 159, 183, 0.18);
+}
 /* Strong final warning style */
 
 #troubleshooting + .callout-danger {
